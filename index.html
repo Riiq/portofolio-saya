@@ -1,298 +1,31 @@
-# Portfolio Website with HTTP API & REST API
-
-Dokumen ini berisi file lengkap untuk membuat sebuah website portofolio HTML5 yang mengonsumsi layanan web (HTTP API / REST API) dan server Node.js (Express) yang dapat dijalankan lokal dan dipublikasikan ke internet. 
-
-> Struktur repo yang disarankan:
-
-```
-portfolio-project/
-├─ public/
-│  ├─ index.html
-│  ├─ styles.css
-│  └─ script.js
-├─ server.js
-├─ package.json
-└─ README.md
-```
-
----
-
-## 1) `public/index.html` (HTML5, responsif, memanggil API)
-
-```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Portofolio — Nama Anda</title>
-  <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <h1>Nama Anda</h1>
-    <p class="tagline">Web Developer — Desainer — Pembuat Konten</p>
-  </header>
 
-  <main>
-    <section id="about" class="card">
-      <h2>Tentang Saya</h2>
-      <p>Singkat, padat, 2-3 kalimat tentang diri dan keahlian.</p>
-    </section>
+    <header>
+        <h1>Portofolio Digital Saya</h1>
+        <p>Proyek-proyek berikut diambil secara dinamis dari GitHub API.</p>
+    </header>
 
-    <section id="projects" class="card">
-      <h2>Proyek</h2>
-      <div id="projects-list">Memuat proyek...</div>
-    </section>
+    <main>
+        <section id="projects">
+            <h2>Proyek Saya</h2>
+            <div id="project-container" class="loading">
+                <p>Memuat proyek...</p>
+            </div>
+        </section>
+    </main>
 
-    <section id="contact" class="card">
-      <h2>Kontak</h2>
-      <form id="contact-form">
-        <label>Nama <input name="name" required></label>
-        <label>Email <input name="email" type="email" required></label>
-        <label>Pesan <textarea name="message" required></textarea></label>
-        <button type="submit">Kirim</button>
-      </form>
-      <div id="contact-result"></div>
-    </section>
-  </main>
+    <footer>
+        <p>&copy; 2025 Nama Anda</p>
+    </footer>
 
-  <footer class="site-footer">
-    <small>© <span id="year"></span> Nama Anda</small>
-  </footer>
-
-  <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-```
-
----
-
-## 2) `public/styles.css` (sederhana, responsif)
-
-```css
-*{box-sizing:border-box}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5;margin:0;background:#f5f5f7;color:#111}
-.site-header{background:#1e293b;color:#fff;padding:2rem;text-align:center}
-.site-header h1{margin:0;font-size:2rem}
-.tagline{opacity:.9}
-main{max-width:900px;margin:1.25rem auto;padding:0 1rem}
-.card{background:#fff;padding:1rem;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.06);margin-bottom:1rem}
-#projects-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem}
-.project{padding:.75rem;border:1px solid #eee;border-radius:8px}
-form label{display:block;margin-bottom:.5rem}
-input,textarea{width:100%;padding:.5rem;border:1px solid #ddd;border-radius:6px}
-button{background:#0ea5a1;color:#fff;border:none;padding:.6rem 1rem;border-radius:8px;cursor:pointer}
-.site-footer{text-align:center;padding:1rem 0;color:#6b7280}
-@media(min-width:900px){.site-header h1{font-size:2.6rem}}
-```
-
----
-
-## 3) `public/script.js` (memanggil API — HTTP GET & POST RESTful)
-
-```javascript
-const projectsList = document.getElementById('projects-list');
-const contactForm = document.getElementById('contact-form');
-const contactResult = document.getElementById('contact-result');
-
-// tampilkan tahun
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Ambil daftar proyek dari API (GET /api/projects)
-async function loadProjects(){
-  projectsList.innerHTML = 'Memuat...';
-  try{
-    const res = await fetch('/api/projects'); // HTTP API (RESTful GET)
-    if(!res.ok) throw new Error('Gagal memuat proyek');
-    const projects = await res.json();
-    if(!projects.length) projectsList.innerHTML = '<em>Tidak ada proyek</em>';
-    else{
-      projectsList.innerHTML = projects.map(p => `
-        <article class="project">
-          <h3>${escapeHtml(p.title)}</h3>
-          <p>${escapeHtml(p.description)}</p>
-          <p><small>Teknologi: ${escapeHtml(p.tech.join(', '))}</small></p>
-          <p><a href="${p.url}" target="_blank" rel="noopener">Lihat demo</a></p>
-        </article>
-      `).join('');
-    }
-  }catch(err){
-    projectsList.innerHTML = '<em>Gagal memuat proyek.</em>';
-    console.error(err);
-  }
-}
-
-// kirim form kontak ke API (POST /api/contact)
-contactForm.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const fd = new FormData(contactForm);
-  const payload = Object.fromEntries(fd.entries());
-  contactResult.textContent = 'Mengirim...';
-  try{
-    const res = await fetch('/api/contact',{
-      method:'POST',
-      headers:{ 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if(res.ok){
-      contactResult.textContent = data.message || 'Pesan terkirim!';
-      contactForm.reset();
-    }else{
-      contactResult.textContent = data.error || 'Gagal mengirim pesan';
-    }
-  }catch(err){
-    contactResult.textContent = 'Gagal mengirim — cek koneksi';
-    console.error(err);
-  }
-});
-
-// helper
-function escapeHtml(s){
-  if(!s) return '';
-  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]);
-}
-
-// inisialisasi
-loadProjects();
-```
-
----
-
-## 4) `server.js` — contoh server Node.js + Express (REST API + serve static files)
-
-```javascript
-// server.js
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-// data contoh (bisa diganti dengan DB nyata)
-const projects = [
-  { id:1, title:'Website Toko', description:'Toko online sederhana', tech:['HTML','CSS','JS','Node'], url:'https://contoh.com'},
-  { id:2, title:'Aplikasi Mobile', description:'Prototype aplikasi mobile', tech:['React Native'], url:'#'}
-];
-
-// ROUTES — REST API
-app.get('/api/projects', (req,res)=>{
-  // contoh endpoint RESTful: GET semua proyek
-  res.json(projects);
-});
-
-app.get('/api/projects/:id',(req,res)=>{
-  const p = projects.find(x=>x.id===Number(req.params.id));
-  if(!p) return res.status(404).json({error:'Project tidak ditemukan'});
-  res.json(p);
-});
-
-app.post('/api/contact',(req,res)=>{
-  const {name,email,message} = req.body || {};
-  if(!name||!email||!message) return res.status(400).json({error:'Lengkapi nama, email dan pesan'});
-  // Di sini Anda bisa menyimpan ke DB, kirim email, dsb.
-  console.log('Pesan kontak:', {name,email,message});
-  res.json({message: 'Terima kasih! Pesan Anda telah diterima.'});
-});
-
-// serve static files dari /public
-app.use(express.static(path.join(__dirname,'public')));
-
-// fallback untuk SPA / index.html
-app.get('*', (req,res)=>{
-  res.sendFile(path.join(__dirname,'public','index.html'));
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log(`Server berjalan di port ${PORT}`));
-```
-
----
-
-## 5) `package.json` minimal
-
-```json
-{
-  "name": "portfolio-project",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
-  }
-}
-```
-
----
-
-## 6) Cara menjalankan lokal
-
-1. Pastikan Node.js terpasang (versi LTS direkomendasikan).
-2. Buka terminal di folder `portfolio-project`.
-3. `npm install`
-4. `node server.js` atau `npm start`
-5. Buka `http://localhost:3000` di browser — front-end akan memanggil API pada jalur `/api/*`.
-
----
-
-## 7) Contoh panggilan API (curl)
-
-- GET proyek:
-```
-curl http://localhost:3000/api/projects
-```
-
-- POST kontak:
-```
-curl -X POST http://localhost:3000/api/contact -H 'Content-Type: application/json' -d '{"name":"Ariq","email":"ariq@example.com","message":"Halo"}'
-```
-
----
-
-## 8) Membuat server dapat diakses publik — beberapa opsi
-
-### Opsi A — cepat (demo) : ngrok
-- Pasang `ngrok` lalu jalankan `ngrok http 3000`. Anda akan mendapat URL publik `https://xxxx.ngrok.io` yang meneruskan ke `localhost:3000`. Cocok untuk demo singkat.
-- Catatan: URL ngrok bersifat sementara (session-based) kecuali langganan berbayar.
-
-### Opsi B — hosting gratis untuk front-end + backend gratis (disarankan split)
-- Front-end statis (`public/`) → GitHub Pages atau Cloudflare Pages (gratis). Jika menggunakan GitHub Pages, hanya bisa untuk static site (tanpa backend Node).
-- Backend Node → gunakan layanan seperti Render (free), Railway (free tier), Fly.io (free tier), atau Vercel (untuk serverless functions). Caranya: push repo ke GitHub dan koneksikan ke layanan, atur start command `npm start`.
-
-### Opsi C — VPS (lebih fleksibel)
-- Sewa VPS murah (contoh: DigitalOcean, Vultr, atau penyedia lokal). Pada VPS: clone repo, `npm install`, jalankan `node server.js` di background (pm2 atau systemd). Arahkan domain/subdomain ke IP VPS via DNS A record.
-
-### Opsi D — All-in-one (Render / Railway)
-- Render: buat "Web Service", sambungkan repo, build command `npm install`, start `npm start` — Render memberikan domain `your-service.onrender.com`.
-
-> Kalau Anda mau saya bisa tulis langkah-langkah spesifik untuk salah satu platform (contoh: deploy ke Render atau ke GitHub Pages + Render untuk backend).
-
----
-
-## 9) Keamanan & catatan produksi singkat
-- Jangan simpan kredensial langsung di kode; gunakan environment variables.
-- Untuk form kontak produksi gunakan validasi sisi server, proteksi rate-limit, dan anti-spam (reCAPTCHA jika perlu).
-- Untuk file upload gunakan batas ukuran dan pengecekan tipe file.
-
----
-
-## 10) Penutup — Checklist yang sudah tersedia
-- [x] Front-end HTML5 + CSS + JS (panggilan REST API)
-- [x] Server Node.js + Express menyajikan API `GET /api/projects` dan `POST /api/contact`
-- [x] Instruksi menjalankan lokal
-- [x] Opsi publikasi (ngrok, Render, VPS, GitHub Pages)
-
----
-
-Jika mau, saya bisa:
-- Membuat repo GitHub lengkap dengan file-file di atas (saya buatkan konten siap-push).
-- Menuliskan langkah langkah deploy 1-klik pada Render atau Railway secara lengkap.
-- Menambahkan database sederhana (SQLite / MongoDB Atlas) untuk menyimpan pesan kontak dan proyek.
-
-Tentukan salah satu dari opsi di atas (contoh: "Buat repo GitHub dan deploy ke Render") dan saya akan sertakan file konfigurasi dan instruksi lengkap.
