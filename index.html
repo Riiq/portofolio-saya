@@ -3,26 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Fotografer</title>
+    <title>Claudia Sherlock - Photographer</title>
+    
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <h1>Portofolio Saya</h1>
-        <p>Spesialis Foto Landscape & Potret</p>
+    <header class="hero-section">
+        <nav>
+            <a href="#" class="logo">Claudia</a>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Price</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </nav>
+
+        <div class="social-sidebar">
+            <div class="line"></div>
+            <a href="#" aria-label="Gallery"><i class="fas fa-images"></i></a>
+            <a href="#" aria-label="Video"><i class="fas fa-play-circle"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+
+        <div class="hero-text">
+            <h1>Claudia Sherlock</h1>
+            <p>Photographer</p>
+        </div>
     </header>
 
-    <main>
-        <section id="portfolio-grid" class="portfolio-container">
-            <p class="loading-text">Memuat foto...</p>
-        </section>
-    </main>
+    <section id="portfolio" class="portfolio-section">
+        <h2>My Portfolio</h2>
+        <div id="portfolio-grid" class="portfolio-grid">
+            </div>
+    </section>
 
     <footer>
-        <p>&copy; 2025 Nama Fotografer. All rights reserved.</p>
+        <p>&copy; 2025 Claudia Sherlock. All rights reserved.</p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
