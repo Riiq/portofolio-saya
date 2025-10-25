@@ -31,7 +31,7 @@ ul {
 /* Bagian Hero & Navigasi */
 .hero-section {
     height: 100vh; /* Mengisi seluruh layar */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('image_ccfdda.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('imagebg.png');
     background-size: cover;
     background-position: center;
     position: relative;
