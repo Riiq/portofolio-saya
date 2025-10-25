@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI ---
     // GANTI "google" DENGAN USERNAME GITHUB ANDA
-    const githubUsername = 'google'; 
+    const githubUsername = 'Riiq'; 
     // -------------------
 
     const apiUrl = `https://api.github.com/users/${githubUsername}/repos?sort=updated&direction=desc`;
@@ -55,4 +55,5 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = '<p>Gagal memuat proyek. Silakan coba lagi nanti.</p>';
             container.classList.remove('loading');
         });
+
 });
