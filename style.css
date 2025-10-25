@@ -1,0 +1,181 @@
+/* Import Font (Mirip dengan gambar) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+/* Reset Dasar & Gaya Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Bagian Hero & Navigasi */
+.hero-section {
+    height: 100vh; /* Mengisi seluruh layar */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('image_ccfdda.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 5%;
+    width: 100%;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+nav ul {
+    display: flex;
+    gap: 2.5rem;
+}
+
+nav ul li a {
+    font-size: 1rem;
+    font-weight: 400;
+    transition: opacity 0.3s ease;
+}
+
+nav ul li a:hover {
+    opacity: 0.7;
+}
+
+/* Sidebar Ikon Sosial */
+.social-sidebar {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Jarak antar ikon */
+}
+
+.social-sidebar .line {
+    position: absolute;
+    width: 1px;
+    /* Membuat garis lebih panjang dari kontainer ikon */
+    height: calc(100% + 150px); 
+    background: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Di belakang ikon */
+}
+
+.social-sidebar a {
+    font-size: 1.2rem;
+    z-index: 2; /* Di depan garis */
+    transition: transform 0.3s ease;
+}
+
+.social-sidebar a:hover {
+    transform: scale(1.2);
+}
+
+/* Teks Hero */
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.hero-text h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Bagian Portofolio (Hasil API) */
+.portfolio-section {
+    padding: 4rem 5%;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.portfolio-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.portfolio-grid {
+    display: grid;
+    /* Grid responsif: 1 kolom di HP, 3 kolom di desktop */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.portfolio-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 250px; /* Tinggi gambar tetap */
+    object-fit: cover; /* Agar gambar tidak gepeng */
+    display: block;
+}
+
+.portfolio-item p {
+    padding: 1rem;
+    font-size: 0.9rem;
+    text-align: left;
+    color: #555;
+    /* Mencegah teks terlalu panjang */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: -1px; /* Menghindari celah kecil */
+}
