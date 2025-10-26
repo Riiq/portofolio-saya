@@ -34,7 +34,7 @@ async function loadComments() {
     listContainer.innerHTML = '<p>Loading messages...</p>';
 
     try {
-        const response = await fetch(`${API_URL}?select=*&order=created_at.desc`, {
+        const response = await fetch(`${API_URL}?select=*`, {
             method: 'GET',
             headers: API_HEADERS
         });
