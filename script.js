@@ -1,63 +1,120 @@
-// Menjalankan skrip setelah seluruh konten HTML selesai dimuat
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // Memanggil fungsi untuk memuat data portofolio
-    loadPortfolio();
+// GANTI DENGAN KUNCI & URL PROYEK SUPABASE ANDA
+const SUPABASE_URL = 'https://tqabvtrcjptkysfncqys.supabase.co'; 
+const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY'; 
 
+// URL API untuk tabel 'comments' kita
+const API_URL = `${SUPABASE_URL}/rest/v1/comments`;
+
+// Header standar untuk otentikasi Supabase
+const API_HEADERS = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json'
+};
+
+
+// 1. JALANKAN SAAT HALAMAN DIMUAT
+document.addEventListener('DOMContentLoaded', () => {
+    // Ambil semua data komentar saat halaman dibuka
+    loadComments();
+
+    // Tambahkan 'event listener' ke form
+    const commentForm = document.getElementById('comment-form');
+    commentForm.addEventListener('submit', handleFormSubmit);
 });
 
-/**
- * Fungsi Asynchronous untuk mengambil data dari RestAPI
- * dan menampilkannya di halaman web.
- */
-async function loadPortfolio() {
-    const gridContainer = document.getElementById('portfolio-grid');
 
-    // 1. Tampilkan status loading
-    gridContainer.innerHTML = '<p>Loading portfolio items...</p>';
+/**
+ * ==================================================
+ * METODE GET
+ * Mengambil semua data komentar dari Supabase
+ * ==================================================
+ */
+async function loadComments() {
+    const listContainer = document.getElementById('comments-list');
+    listContainer.innerHTML = '<p>Loading messages...</p>';
 
     try {
-        // 2. Lakukan panggilan (fetch) ke RestAPI
-        // Kita akan mengambil 9 foto dari API publik jsonplaceholder
-        const response = await fetch('https://jsonplaceholder.typicode.com/photos?_limit=9');
+        const response = await fetch(`${API_URL}?select=*&order=created_at.desc`, {
+            method: 'GET',
+            headers: API_HEADERS
+        });
 
-        // Cek jika response tidak sukses (misal: error 404 atau 500)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // 3. Ubah data response menjadi JSON
-        const photos = await response.json();
+        const comments = await response.json();
 
-        // 4. Bersihkan status loading
-        gridContainer.innerHTML = '';
+        // Bersihkan list
+        listContainer.innerHTML = '';
 
-        // 5. Loop setiap data foto dan buat elemen HTML-nya
-        photos.forEach(photo => {
-            // Buat elemen div untuk kartu portofolio
+        // Tampilkan setiap komentar
+        comments.forEach(comment => {
             const item = document.createElement('div');
-            item.className = 'portfolio-item';
-
-            // Buat elemen gambar
-            const img = document.createElement('img');
-            img.src = photo.thumbnailUrl; // Ambil URL gambar mini
-            img.alt = photo.title;
-
-            // Buat elemen paragraf untuk judul
-            const title = document.createElement('p');
-            title.textContent = photo.title; // Ambil judul foto
-
-            // Masukkan gambar dan judul ke dalam kartu item
-            item.appendChild(img);
-            item.appendChild(title);
-
-            // Masukkan kartu item ke dalam grid di HTML
-            gridContainer.appendChild(item);
+            item.className = 'comment-item';
+            
+            const nameEl = document.createElement('strong');
+            nameEl.textContent = comment.name;
+            
+            const messageEl = document.createElement('p');
+            messageEl.textContent = comment.message;
+            
+            item.appendChild(nameEl);
+            item.appendChild(messageEl);
+            listContainer.appendChild(item);
         });
 
     } catch (error) {
-        // 6. Tangani jika terjadi error
-        console.error('Error fetching portfolio data:', error);
-        gridContainer.innerHTML = '<p>Failed to load portfolio. Please try again later.</p>';
+        console.error('Error (GET):', error);
+        listContainer.innerHTML = '<p>Failed to load messages.</p>';
+    }
+}
+
+
+/**
+ * ==================================================
+ * METODE POST
+ * Mengirim data baru (komentar) ke Supabase
+ * ==================================================
+ */
+async function handleFormSubmit(event) {
+    // Mencegah halaman reload saat form disubmit
+    event.preventDefault();
+
+    // Ambil data dari form
+    const nameInput = document.getElementById('comment-name');
+    const messageInput = document.getElementById('comment-message');
+
+    const name = nameInput.value;
+    const message = messageInput.value;
+
+    // Buat objek data yang akan dikirim
+    const newData = {
+        name: name,
+        message: message
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: API_HEADERS,
+            body: JSON.stringify(newData) // Ubah data ke format JSON
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Jika berhasil:
+        // 1. Kosongkan form
+        nameInput.value = '';
+        messageInput.value = '';
+        
+        // 2. Muat ulang daftar komentar (GET) agar data baru muncul
+        loadComments();
+
+    } catch (error) {
+        console.error('Error (POST):', error);
+        alert('Failed to submit message.');
     }
 }
