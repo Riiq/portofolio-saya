@@ -123,6 +123,7 @@ nav ul li a:hover {
 }
 
 /* Bagian Portofolio (Hasil API) */
+/* ==================================== */
 .portfolio-section {
     padding: 4rem 5%;
     text-align: center;
@@ -171,6 +172,96 @@ nav ul li a:hover {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+/* Gaya Biodata Diri (My Portfolio)    */
+/* ==================================== */
+
+.biodata-container {
+    display: flex;
+    /* Mengatur tata letak: foto di kiri, teks di kanan */
+    flex-direction: row; 
+    align-items: center;
+    gap: 40px;
+    max-width: 900px; /* Batasi lebar agar tidak terlalu melebar */
+    margin: 3rem auto 0 auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+.profile-photo {
+    /* Ukuran kontainer foto */
+    min-width: 250px; 
+    width: 250px;
+    height: 250px;
+    /* Membuat bentuk lingkaran */
+    border-radius: 50%; 
+    overflow: hidden;
+    box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.05); /* Efek bingkai ringan */
+}
+
+.profile-photo img {
+    /* Memastikan gambar mengisi lingkaran */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-text h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.profile-text .title {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.profile-text p {
+    margin-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.8;
+}
+
+.btn-contact {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-contact:hover {
+    background-color: #555;
+}
+
+
+/* Responsiveness untuk layar kecil (mobile) */
+@media (max-width: 768px) {
+    .biodata-container {
+        /* Mengubah tata letak menjadi vertikal */
+        flex-direction: column; 
+        text-align: center;
+    }
+    
+    .profile-photo {
+        margin-bottom: 2rem;
+    }
+    
+    .profile-text h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-contact {
+        width: 100%;
+    }
+}
 
 /* Footer */
 footer {
@@ -179,6 +270,66 @@ footer {
     text-align: center;
     padding: 2rem;
     margin-top: -1px; /* Menghindari celah kecil */
+}
+
+/* ==================================== */
+/* Gaya Galeri Foto (Carousel Statis)   */
+/* ==================================== */
+
+.gallery-section {
+    padding: 4rem 0; /* Padding vertikal */
+    text-align: center;
+    background-color: #f1f1f1;
+}
+
+.gallery-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.carousel-container {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden; /* Penting: Hanya tampilkan satu slide dalam satu waktu */
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.carousel-track {
+    /* Karena tanpa JS, kita akan mengatur agar track tidak bergerak. */
+    display: flex;
+    width: 100%; 
+    /* Default: Atur agar hanya slide pertama yang terlihat */
+    transform: translateX(0); 
+    transition: none; /* Nonaktifkan transisi CSS */
+}
+
+.carousel-slide {
+    min-width: 100%; /* Setiap slide mengisi 100% lebar container */
+    flex-shrink: 0;
+    position: relative;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 550px; /* Batasi tinggi gambar */
+    object-fit: cover;
+}
+
+.caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
 }
 
 /* ... Gaya Footer Anda ... */
