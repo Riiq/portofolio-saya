@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claudia Sherlock - Photographer</title>
+    <title>Muhammad Ariq Syahputra - Photographer</title>
     
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
 
     <header class="hero-section">
         <nav>
-            <a href="#" class="logo">Claudia</a>
+            <a href="#" class="logo">Arsy.jpg</a>
             <ul>
-                <li><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="#">Price</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><a href="#">Blog</a></li>
             </ul>
         </nav>
 
@@ -28,9 +26,9 @@
             <a href="#" aria-label="Video"><i class="fas fa-play-circle"></i></a>
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
-
+            
         <div class="hero-text">
-            <h1>Claudia Sherlock</h1>
+            <h1>Muhammad Ariq Syahputra</h1>
             <p>Photographer</p>
         </div>
     </header>
@@ -40,12 +38,38 @@
         <div id="portfolio-grid" class="portfolio-grid">
             </div>
     </section>
+    
+<section class="comments-section">
+        <h2>Leave a Message</h2>
+        
+        <form id="comment-form">
+            <div class="form-group">
+                <label for="comment-name">Name:</label>
+                <input type="text" id="comment-name" required>
+            </div>
+            <div class="form-group">
+                <label for="comment-message">Message:</label>
+                <textarea id="comment-message" rows="4" required></textarea>
+            </div>
+            <button type="submit">Submit (POST)</button>
+        </form>
+        
+        <hr>
+        
+        <h3>Messages:</h3>
+        <div id="comments-list">
+            <p>Loading messages...</p>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2025 Claudia Sherlock. All rights reserved.</p>
+        <p>&copy; 2025 Muhammad Ariq Syahputra. All rights reserved.</p>
+    </footer>
+
+    <footer>
+        <p>&copy; 2025 Muhammad Ariq Syahputra. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
-
