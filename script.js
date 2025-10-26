@@ -1,6 +1,6 @@
 // GANTI DENGAN KUNCI & URL PROYEK SUPABASE ANDA
 const SUPABASE_URL = 'https://tqabvtrcjptkysfncqys.supabase.co'; 
-const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxYWJ2dHJjanB0a3lzZm5jcXlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0MDcxMTEsImV4cCI6MjA3Njk4MzExMX0.iv0fcn3MwvJQW__TrehUx-md6HaFk9aEjEpiezONMik'; 
 
 // URL API untuk tabel 'comments' kita
 const API_URL = `${SUPABASE_URL}/rest/v1/comments`;
